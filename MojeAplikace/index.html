@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hyrax Clicker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="rain-container"></div>
+
+    <div id="jackpot-overlay" class="hidden">
+        <img src="media/ijusthitthejackpot.gif" alt="Jackpot!" id="jackpot-gif">
+    </div>
+
+    <div id="wheel-modal" class="hidden">
+        <div class="wheel-content">
+            <h3>Kolo štěstí (Cena: 100 hyraxů)</h3>
+            <div class="wheel-wrapper">
+                <div id="wheel-pointer">▼</div>
+                <div id="wheel">
+                    <div class="wheel-text" style="--i:0">+150</div>
+                    <div class="wheel-text" style="--i:1">+50</div>
+                    <div class="wheel-text" style="--i:2">+100</div>
+                    <div class="wheel-text" style="--i:3">+20</div>
+                    <div class="wheel-text" style="--i:4">+80</div>
+                    <div class="wheel-text lose" style="--i:5">-10</div>
+                    <div class="wheel-text lose" style="--i:6">-50</div>
+                    <div class="wheel-text lose" style="--i:7">-30</div>
+                    <div class="wheel-text lose" style="--i:8">-80</div>
+                    <div class="wheel-text lose" style="--i:9">-20</div>
+                    <div class="wheel-text jackpot" style="--i:10">★★★</div>
+                </div>
+            </div>
+            <button id="btn-spin">Roztočit za 100 🦫</button>
+            <button id="btn-close-wheel">Zavřít</button>
+        </div>
+    </div>
+
+    <div id="milionar-modal" class="hidden">
+        <div class="milionar-content">
+            <h2>Chcete být milionářem?</h2>
+            <h3 id="milionar-question">Ke kterému zvířeti má z následujících hyrax nejblíže?</h3>
+            <div class="odpovedi">
+                <button class="odpoved" data-correct="false">A) Morče</button>
+                <button class="odpoved" data-correct="true">B) Slon</button>
+                <button class="odpoved" data-correct="false">C) Kapybara</button>
+                <button class="odpoved" data-correct="false">D) Svišť</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="layout-grid">
+        <div class="panel left-panel">
+            <h3>Minigames & Zvuk</h3>
+            <div class="minigames-container">
+                <button id="btn-open-wheel" class="action-btn">🎡 Kolo štěstí</button>
+                <button id="btn-milionar" class="action-btn milionar-btn">💰 Milionář</button>
+            </div>
+
+            <div id="sound-hyrax-container">
+                <img src="media/hyrax.webp" alt="Zvukový Hyrax" id="sound-hyrax">
+            </div>
+
+            <h3 class="trophy-title">Síň slávy</h3>
+            <div id="trophies-container">
+                <div class="trophy-wrapper"><img src="media/bronz.png" id="trofej-bronzova" class="trophy"><span class="trophy-tooltip">Bronz (1k)</span></div>
+                <div class="trophy-wrapper"><img src="media/stribro.png" id="trofej-stribrna" class="trophy"><span class="trophy-tooltip">Stříbro (10k)</span></div>
+                <div class="trophy-wrapper"><img src="media/zlato.png" id="trofej-zlata" class="trophy"><span class="trophy-tooltip">Zlato (100k)</span></div>
+                <div class="trophy-wrapper"><img src="media/diamond.png" id="trofej-diamantova" class="trophy"><span class="trophy-tooltip">Diamant (1M)</span></div>
+            </div>
+        </div>
+
+        <div class="panel center-panel">
+            <header class="game-header">
+                <h1>Hyrax Clicker</h1>
+                <div class="score-box">
+                    <h2><span id="skore">0</span> hyraxů</h2>
+                    <p class="stats-text">Hyraxů za sekundu: <span id="skore-sec">0</span></p>
+                    <p class="stats-text">Síla kliknutí: <span id="skore-click">1</span></p>
+                </div>
+            </header>
+
+            <main class="click-section">
+                <div id="btn-hyrax">
+                    <img src="media/hyraxklikani.png" alt="Hyrax" id="hyrax-img">
+                </div>
+            </main>
+
+            <div id="jackpot-timer" class="hidden">
+                🔥 TRIPLE CLICK: <span id="timer-seconds">60</span>s 🔥
+            </div>
+        </div>
+
+        <div class="panel right-panel">
+            <h3>Obchod</h3>
+            <div class="shop-buttons">
+                <button id="btn-farma" class="shop-item">
+                    <strong>Farma</strong><br>
+                    <span>+1 za klik</span><br>
+                    <small>Cena: <span id="cena-farma">10</span> hyraxů</small>
+                </button>
+                <button id="btn-tovarna" class="shop-item">
+                    <strong>Továrna</strong><br>
+                    <span>+1 za sekundu</span><br>
+                    <small>Cena: <span id="cena-tovarna">50</span> hyraxů</small>
+                </button>
+                <button id="btn-portal" class="shop-item">
+                    <strong>Portál</strong><br>
+                    <span>+10 za sekundu</span><br>
+                    <small>Cena: <span id="cena-portal">250</span> hyraxů</small>
+                </button>
+                <button id="btn-klonovac" class="shop-item">
+                    <strong>Klonovač</strong><br>
+                    <span>+5 za klik</span><br>
+                    <small>Cena: <span id="cena-klonovac">1000</span> hyraxů</small>
+                </button>
+                <button id="btn-chram" class="shop-item">
+                    <strong>Zlatý Chrám</strong><br>
+                    <span>+50 za sekundu</span><br>
+                    <small>Cena: <span id="cena-chram">5000</span> hyraxů</small>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <audio id="audio-click" src="media/awawa.mp3"></audio>
+    <audio id="audio-jackpot" src="media/i-just-hit-the-jackpot.mp3" loop></audio>
+    <audio id="audio-milionar-start" src="media/milionare-start.mp3"></audio>
+    <audio id="audio-wait" src="media/cekani.mp3" loop></audio>
+    <audio id="audio-sure" src="media/areyousure.mp3"></audio>
+    <audio id="audio-final" src="media/finalanswer.mp3"></audio>
+    <audio id="audio-correct" src="media/spravne.mp3"></audio>
+    <audio id="audio-wrong" src="media/spatne.mp3"></audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
